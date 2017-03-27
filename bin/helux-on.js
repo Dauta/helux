@@ -20,7 +20,7 @@ geocoder.geocode(location, (err, geo)=>{
   let xflx = cp.spawn(__dirname + '/xflux', ['-l', lat, '-g', lon], {detached: true, stdio: ['ignore', 'pipe', 'pipe']});
   //catch the output
   xflx.stdout.on('data', (data)=>{
-    fs.writeFile(__dirname+'/lib/out.log', data.toString(), ()=>{
+    fs.writeFile(__dirname+'/lib/pid.log', data.toString(), ()=>{
       //detach child from this process
       xflx.unref();
       //display the output
