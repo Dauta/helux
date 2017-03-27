@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ $(ps -ef | grep 'xflux' | grep -v grep | awk '{print $2}' | wc -c) -gt 0 ]]; then
+  #get directory path to here
+  SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  helux="/bin/helux-off"
+  heluxOff="$DIR$helux"
+  node $heluxOff
+  echo 'Helux is off'
+else
+  echo 'Helux is not running.'
+  echo 'You can start it by running command: helux-on {YOUR LOCATION}'
+fi
