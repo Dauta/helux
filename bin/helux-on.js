@@ -11,6 +11,10 @@ if(!location){
 }
 //geocode
 geocoder.geocode(location, (err, geo)=>{
+  if(geo.results.length === 0){
+    console.log(`ERROR: Could not locate "${location}". Please, try again.`);
+    return;
+  }
   //address
   const address = geo.results[0].formatted_address;
   //coordinates
