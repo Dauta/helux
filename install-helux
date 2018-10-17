@@ -1,6 +1,8 @@
 #!/bin/bash
-#npm install
-npm install
+#npm install if not installed
+[ ! -d "node_modules" ] && npm install
+#run the rest as sudo
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 #get directory path to here
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
