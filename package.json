@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/Dauta/helux#readme",
   "dependencies": {
-    "geocoder": "^0.2.3"
+    "axios": "^0.18.0"
   }
 }
