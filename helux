@@ -1,0 +1,54 @@
+#!/bin/bash
+
+function heluxOn () {
+  if [[ $(echo `ps -ef | grep xflux | grep -v grep` | wc -c) -ne 1 ]]; then
+    echo 'One instance of helux is already running.'
+    echo 'Running multiple instances simultaneously will cause artifacts.'
+    echo 'You can stop previous instance by running: helux off'
+  else
+    # get directory path to here
+    SOURCE="${BASH_SOURCE[0]}"
+
+    while [ -h "$SOURCE" ]; do
+      DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+      SOURCE="$(readlink "$SOURCE")"
+      # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+      [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    helux="/bin/helux"
+    heluxOn="$DIR$helux"
+    node $heluxOn $1
+  fi
+}
+
+function heluxOff () {
+  if [[ $(ps -ef | grep 'xflux' | grep -v grep | awk '{print $2}' | wc -c) -gt 0 ]]; then
+    # get directory path to here
+    SOURCE="${BASH_SOURCE[0]}"
+    # resolve $SOURCE until the file is no longer a symlink
+    while [ -h "$SOURCE" ]; do
+      DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+      SOURCE="$(readlink "$SOURCE")"
+      # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+      [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+    done
+
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    helux="/bin/helux-off"
+    heluxOff="$DIR$helux"
+    $heluxOff
+
+    echo 'Helux is off'
+  else
+    echo 'Helux is not running.'
+    echo 'You can start it by running command: helux {YOUR LOCATION}'
+  fi
+}
+
+if [ $1 = "off" ]; then
+  heluxOff
+else
+  heluxOn $1
+fi

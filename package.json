@@ -1,18 +1,18 @@
 {
   "name": "helux",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "f.lux wrapper for node.js",
-  "main": " helux-on.js",
+  "bin": "./bin/helux.js",
   "scripts": {
-    "start": "node helux-on",
-    "stop": "node helux-off",
+    "start": "node bin/helux",
+    "stop": "./bin/helux-off",
     "test": "echo 'hahahah no'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dauta/helux.git"
   },
-  "author": "Irakli Dautashvili (idauta@gmail.com)",
+  "author": "Irakli Dautashvili | idauta@gmail.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Dauta/helux/issues"

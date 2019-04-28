@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# run as sudo
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+
+# check if running and turn-off
+if [[ $(ps -ef | grep 'xflux' | grep -v grep | awk '{print $2}' | wc -c) -gt 0 ]]; then
+# get directory path to here
+  SOURCE="${BASH_SOURCE[0]}"
+
+  while [ -h "$SOURCE" ]; do
+    DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+    SOURCE="$(readlink "$SOURCE")"
+    [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+  done
+
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  helux="/bin/helux-off"
+  heluxOff="$DIR$helux"
+  $heluxOff
+  
+  printf 'Helux is off'
+  printf '\n*** *** ***\n'
+fi
+
+# remove the symlink
+rm /usr/bin/helux
+printf 'Helux has been successfully uninstalled from your system\n'

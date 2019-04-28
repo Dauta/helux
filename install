@@ -1,0 +1,35 @@
+#!/bin/bash
+
+# npm install if not installed
+[ ! -d "node_modules" ] && npm install
+
+# run the rest as sudo
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
+
+# get directory path to here
+SOURCE="${BASH_SOURCE[0]}"
+
+while [ -h "$SOURCE" ]; do # resolve $SOURCE until the file is no longer a symlink
+  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE" # if $SOURCE was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+done
+
+DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+
+# path to the main script
+hlx="/helux"
+
+#path to bash script
+pathToHlx="$DIR$hlx"
+
+#create symlincs
+ln -s $pathToHlx /usr/bin/helux
+
+#installed
+printf 'Helux has been installed successfully\n'
+printf '*** *** ***\n\n'
+printf 'To start Helux run:   helux {YOUR LOCATION}\n'
+printf 'To stop:              helux off\n'
+printf '\n*** *** ***\n'
+printf "to uninstall run: cd $(pwd) && sudo ./uninstall\n"
